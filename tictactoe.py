@@ -26,21 +26,71 @@ def player_input(board):
     if choice >= 1 or choice <= 9 and board[choice -1] != "*":
         board[choice -1] = player
     else:
-        print("Ops")
+        print("Ops, try again!")
 
 
-#checking for winners
+#checking for winners horizontally
+def check_horiz(board):
+    global winner
+    if board[0] == board[1] == board[2] and board[0] != "*":
+        winner = board[0]
+    elif board[3] == board[4] == board[5] and board[3] != "*":
+        winner = board[3]
+    elif board[6] == board[7] == board[8] and board[6] != "*":
+        winner = board[6]
+
+#checking for winners vertically
+def check_vert(board):
+    global winner
+    if board[0] == board[3] == board[6] and board[0] != "*":
+        winner = board[0]
+    elif board[1] == board[4] == board[7] and board[1] != "*":
+        winner = board[1]
+    elif board[2] == board[5] == board[8] and board[2] != "*":
+        winner = board[2]
+
+#checking for winners diagonally
+def check_diag(board):
+    global winner
+    if board[0] == board[4] == board[8] and board[0] != "*":
+        winner = board[0]
+    elif board[2] == board[4] == board[6] and board[2] != "*":
+        winner = board[2]
+    
+
+def check_winner():
+    global game_running
+    if check_horiz(board) or check_vert(board) or check_diag(board):
+        print(f"The winner is {winner}")
+        game_running = False
+
+#checking for tie
+def chack_tie(board):
+    global game_running
+    if "*" not in board:
+        print("It is a tie!")
+        game_running = False
 
 
 #switching players
-
+def switch_player():
+    global player
+    if player == "X":
+        player = "O"
+    else:
+        player = "X"
 
 #all functions
 def main():
-    while True:
+    while game_running == True:
         print_board(board)
         player_input(board)
+        check_winner()
+        chack_tie(board)
+        switch_player()
+        
+        
 
 
-print("TIC TAC TOE\n")
+print("-- TIC TAC TOE --\n")
 main()
